@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>麻辣红包中餐智能数据大屏</title>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2/dist/echarts-wordcloud.min.js"></script>
+    <!-- 本地JS文件 -->
+    <script src="resources/echarts.min.js"></script>
+    <script src="resources/echarts-wordcloud.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -563,9 +564,7 @@
                 const easeOut = 1 - Math.pow(1 - progress, 3);
                 const current = Math.floor(start + (target - start) * easeOut);
                 element.textContent = current.toLocaleString();
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                }
+                if (progress < 1) requestAnimationFrame(update);
             }
             requestAnimationFrame(update);
         }
@@ -619,16 +618,8 @@
                             return colors[Math.floor(Math.random() * colors.length)];
                         }
                     },
-                    emphasis: {
-                        textStyle: {
-                            textShadowBlur: 10,
-                            textShadowColor: '#FFD700'
-                        }
-                    },
-                    data: data.cuisine.map(item => ({
-                        name: item.菜系,
-                        value: item.比重 * 10
-                    }))
+                    emphasis: { textStyle: { textShadowBlur: 10, textShadowColor: '#FFD700' } },
+                    data: data.cuisine.map(item => ({ name: item.菜系, value: item.比重 * 10 }))
                 }]
             };
             chart.setOption(option);
@@ -638,31 +629,17 @@
         function initSceneChart() {
             const chart = echarts.init(document.getElementById('sceneChart'));
             const option = {
-                tooltip: {
-                    trigger: 'item',
-                    formatter: '{b}: {c}'
-                },
+                tooltip: { trigger: 'item', formatter: '{b}: {c}' },
                 series: [{
                     type: 'pie',
                     radius: '50%',
                     center: ['50%', '50%'],
-                    itemStyle: {
-                        borderRadius: 2,
-                        borderColor: '#ffaa00',
-                        borderWidth: 2
-                    },
-                    label: {
-                        show: true,
-                        formatter: '{b}\n{d}%',
-                        fontSize: 10,
-                        textStyle: { color: '#ffaa00' }
-                    },
+                    itemStyle: { borderRadius: 2, borderColor: '#ffaa00', borderWidth: 2 },
+                    label: { show: true, formatter: '{b}\n{d}%', fontSize: 10, textStyle: { color: '#ffaa00' } },
                     data: data.scene.map((item, index) => ({
                         value: item.人数,
                         name: item.场景,
-                        itemStyle: {
-                            color: ['#C8102E', '#FF6B6B', '#FFA500', '#FFD700', '#4ECDC4'][index]
-                        }
+                        itemStyle: { color: ['#C8102E', '#FF6B6B', '#FFA500', '#FFD700', '#4ECDC4'][index] }
                     }))
                 }]
             };
@@ -709,11 +686,7 @@
             const chart = echarts.init(document.getElementById('trendChart'));
             const option = {
                 tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
-                legend: {
-                    data: ['月新增', '较往年趋势'],
-                    top: 0,
-                    textStyle: { fontSize: 10, color: '#ebc587f2' }
-                },
+                legend: { data: ['月新增', '较往年趋势'], top: 0, textStyle: { fontSize: 10, color: '#ebc587f2' } },
                 grid: { left: '3%', right: '4%', bottom: '3%', top: '14%', containLabel: true },
                 xAxis: {
                     type: 'category',
@@ -761,25 +734,14 @@
         function updateDateTime() {
             const now = new Date();
             const datetime = now.toLocaleString('zh-CN', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
             }).replace(/\//g, '.');
             document.getElementById('datetime').textContent = datetime;
             document.getElementById('lastUpdate').textContent = now.toLocaleTimeString('zh-CN');
         }
 
-        const dishImages = [
-            'resources/1.png',
-            'resources/2.png',
-            'resources/3.png',
-            'resources/4.png',
-            'resources/5.png',
-            'resources/6.png',
-        ];
+        const dishImages = ['resources/1.png', 'resources/2.png', 'resources/3.png', 'resources/4.png', 'resources/5.png', 'resources/6.png'];
         let currentDishIndex = 0;
 
         function rotateDish() {
@@ -794,9 +756,7 @@
 
         function toggleFullscreen() {
             if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.log('全屏失败:', err);
-                });
+                document.documentElement.requestFullscreen();
             } else {
                 document.exitFullscreen();
             }
