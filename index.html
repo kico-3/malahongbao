@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>麻辣红包中餐智能数据大屏</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2.1.0/dist/echarts-wordcloud.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2/dist/echarts-wordcloud.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -36,7 +36,6 @@
             margin: 0 auto;
         }
 
-        /* 顶部标题区 */
         .header {
             display: flex;
             justify-content: space-between;
@@ -56,7 +55,7 @@
 
         .weather-info {
             color: rgba(255, 255, 255, 0.9);
-            font-size: 1.6rem;
+            font-size: 0.85rem;
         }
 
         .header-center {
@@ -68,12 +67,12 @@
         }
 
         .header h1 {
-            font-size: 4rem;
+            font-size: 2.2rem;
             font-weight: bold;
             color: white;
             text-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.5);
-            letter-spacing: 12px;
-            margin-bottom: 1vh;
+            letter-spacing: 8px;
+            margin-bottom: 0.5vh;
         }
 
         .nav-tabs {
@@ -86,10 +85,10 @@
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 6px;
-            padding: 0.6vh 1.5vw;
+            border-radius: 4px;
+            padding: 0.4vh 1vw;
             color: white;
-            font-size: 1.6rem;
+            font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -102,11 +101,10 @@
 
         .header-right {
             color: white;
-            font-size: 1.8rem;
+            font-size: 1rem;
             font-weight: 500;
         }
 
-        /* 主内容区域 - 左中右三栏 */
         .main-content {
             display: grid;
             grid-template-columns: 1fr 1.8fr 1fr;
@@ -115,7 +113,6 @@
             min-height: 0;
         }
 
-        /* 三列容器 */
         .column {
             display: flex;
             flex-direction: column;
@@ -123,7 +120,6 @@
             min-height: 0;
         }
 
-        /* 玻璃卡片 - 透明背景 */
         .glass-card {
             background: transparent;
             border-radius: 6px;
@@ -133,16 +129,15 @@
         }
 
         .card-title {
-            font-size: 1.8rem;
+            font-size: 1rem;
             font-weight: 600;
             color: rgba(235, 197, 135, 0.95);
-            margin-bottom: 1vh;
-            padding-left: 12px;
-            border-left: 4px solid rgba(235, 197, 135, 1);
+            margin-bottom: 0.6vh;
+            padding-left: 8px;
+            border-left: 3px solid rgba(235, 197, 135,1);
             flex-shrink: 0;
         }
 
-        /* 菜品展示 - 左侧顶部 */
         .dish-display {
             flex: 1;
             background: linear-gradient(135deg, #FFF 0%, #F8F8F8 100%);
@@ -152,54 +147,15 @@
             justify-content: center;
             overflow: hidden;
             min-height: 120px;
-            position: relative;
-        }
-        
-        .dish-display img {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 4px;
-            transition: opacity 1.5s ease-in-out;
-        }
-        
-        .dish-display img.visible {
-            opacity: 1;
-        }
-        
-        .dish-display img.hidden {
-            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .dish-display .dish-placeholder {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #FF8C42 0%, #FF6B6B 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 2.5rem;
-        }
-
-        .dish-name {
-            text-align: center;
-            font-weight: 600;
-            color: #333;
-            font-size: 0.8rem;
-            margin-top: 0.3vh;
-            flex-shrink: 0;
-        }
-
-        /* 图表容器 */
         .chart-container {
             flex: 1;
-            min-height: 150px;
+            min-height: 0;
             border-radius: 4px;
         }
 
-        /* 配方总数大数字 - 中间核心 */
         .big-number-container {
             border-radius: 8px;
             padding: 1.5vh 2vw;
@@ -214,23 +170,8 @@
             justify-content: center;
         }
 
-        .earth-bg {
-            position: absolute;
-            width: 180%;
-            height: 180%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-        }
-
-        @keyframes earthRotate {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
         .big-number-label {
-            font-size: 5rem;
+            font-size: 3rem;
             color: rgba(255, 255, 255, 0.95);
             margin: 0;
             position: relative;
@@ -238,17 +179,16 @@
         }
 
         .big-number-value {
-            font-size: 10rem;
+            font-size: 6rem;
             font-weight: bold;
             color: #FFD700;
             text-shadow: 0 0 25px rgba(255, 255, 255, 0.9), 0 0 50px rgba(255, 215, 0, 0.5);
-            letter-spacing: 4px;
+            letter-spacing: 2px;
             position: relative;
             z-index: 1;
-            margin: 1vh 0 0 0;
+            margin: 0.5vh 0 0 0;
         }
 
-        /* 菜品基础数据 - 中间顶部（列表形式） */
         .basic-data-list {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -266,17 +206,16 @@
 
         .basic-data-label {
             color: rgba(235, 197, 135, 0.95);
-            font-size: 1.4rem;
+            font-size: 0.8rem;
             white-space: nowrap;
         }
 
         .basic-data-value {
             color: #f7c600;
-            font-size: 1.8rem;
+            font-size: 0.95rem;
             font-weight: 600;
         }
 
-        /* 研发情况卡片 - 右侧顶部 */
         .research-cards {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -285,26 +224,25 @@
         }
 
         .research-card {
-            border-radius: 6px;
-            padding: 1vh 0.8vw;
+            border-radius: 4px;
+            padding: 0.5vh 0.4vw;
             text-align: center;
             color: #ebc587f2;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
 
         .research-card .number {
-            font-size: 2.2rem;
+            font-size: 1rem;
             font-weight: bold;
             color: #FFD700;
-            margin-bottom: 0.3vh;
+            margin-bottom: 0.1vh;
         }
 
         .research-card .label {
-            font-size: 1.2rem;
+            font-size: 0.75rem;
             opacity: 0.9;
         }
 
-        /* 数据表格 */
         .data-table-wrapper {
             flex: 1;
             overflow: hidden;
@@ -317,24 +255,19 @@
         }
 
         .data-table th {
-            padding: 1vh 0.8vw;
+            padding: 0.5vh 0.4vw;
             text-align: left;
             font-weight: 600;
             color: #ebc597f2;
-            font-size: 1.2rem;
+            font-size: 0.75rem;
         }
 
         .data-table td {
-            padding: 1.2vh 1vw;
+            padding: 1vh 0.5vw;
             color: #ebc597f2;
-            font-size: 1.1rem;
+            font-size: 0.7rem;
         }
 
-        .data-table tr:hover {
-            background: rgba(255, 215, 0, 0.05);
-        }
-
-        /* 场景分布和服务标识 - 左右布局 */
         .scene-service-wrapper {
             display: flex;
             gap: 1vw;
@@ -362,14 +295,13 @@
         }
 
         .service-circle {
-            width: 90px;
-            height: 90px;
+            width: 56px;
+            height: 56px;
             background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: rgba(255, 215, 0, 0.5);
             font-weight: bold;
             box-shadow: 0 2px 10px rgba(255, 215, 0, 0.5);
             flex-shrink: 0;
@@ -377,70 +309,60 @@
 
         .service-text {
             text-align: center;
-            font-size: 1rem;
+            font-size: 0.6rem;
             color: rgba(255, 255, 255, 0.85);
         }
 
         .service-percent {
-            font-size: 1.6rem;
+            font-size: 1rem;
             font-weight: bold;
             color: white;
         }
 
-        /* 刷新提示 */
         .refresh-tip {
             position: fixed;
-            bottom: 12px;
-            right: 15px;
+            bottom: 8px;
+            left: 10px;
             background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 16px;
-            padding: 8px 14px;
+            border-radius: 12px;
+            padding: 4px 10px;
             color: white;
-            font-size: 1rem;
+            font-size: 0.6rem;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             z-index: 1000;
         }
 
+        .fullscreen-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 4px;
+            color: white;
+            font-size: 0.6rem;
+            padding: 2px 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .fullscreen-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+        }
+
         .refresh-dot {
-            width: 6px;
-            height: 6px;
+            width: 4px;
+            height: 4px;
             background: #00ff00;
             border-radius: 50%;
             animation: blink 1s ease-in-out infinite;
         }
 
-        /* 全屏按钮 */
-        .fullscreen-btn {
-            background: rgba(255, 215, 0, 0.2);
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            border-radius: 4px;
-            padding: 4px 12px;
-            color: #FFD700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            margin-left: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .fullscreen-btn:hover {
-            background: rgba(255, 215, 0, 0.4);
-            border-color: rgba(255, 215, 0, 0.8);
-        }
-
-        .fullscreen-btn.hidden {
-            display: none;
-        }
-
-        /* 奇数行 - 无背景（透明） */
         tbody tr:nth-child(odd) {
             background-color: rgba(255, 215, 0, 0.05);
         }
 
-        /* 偶数行 - 有背景 */
         tbody tr:nth-child(even) {
             background-color: transparent;
         }
@@ -449,36 +371,13 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
         }
-
-        /* 数据更新闪烁动画 */
-        @keyframes dataFlash {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-
-        .data-flash {
-            animation: dataFlash 0.3s ease;
-        }
-
-        /* 卡片更新高亮 */
-        .card-update {
-            animation: cardGlow 0.5s ease;
-        }
-
-        @keyframes cardGlow {
-            0% { box-shadow: 0 0 0 rgba(255, 215, 0, 0); }
-            50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
-            100% { box-shadow: 0 0 0 rgba(255, 215, 0, 0); }
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 顶部标题区 -->
         <div class="header">
             <div class="header-left">
-                <div class="weather-info" id="weatherInfo">🌧️ 小雨 | 16-20℃</div>
+                <div class="weather-info">🌧️ 小雨 | 16-20℃</div>
             </div>
             <div class="header-center">
                 <h1>麻辣红包中餐智能数据大屏</h1>
@@ -492,21 +391,19 @@
             <div class="header-right" id="datetime">2026.04.06 16:08:47</div>
         </div>
 
-        <!-- 主内容区域 -->
         <div class="main-content">
-            <!-- 左列 -->
             <div class="column">
-                <div class="glass-card" style="flex:0.8;">
-                    <div class="card-title" >菜品展示</div>
-                    <div class="dish-display"  id="dishDisplay">
-                        <div class="dish-placeholder">🍲</div>
+                <div class="glass-card">
+                    <div class="card-title">菜品展示</div>
+                    <div class="dish-display" id="dishDisplay">
+                       <img src="resources/1.png" alt="菜品展示" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
                     </div>
                 </div>
-                <div class="glass-card" >
+                <div class="glass-card" style="flex: 1;">
                     <div class="card-title">菜系分布</div>
-                    <div class="chart-container" id="cuisineChart" style="height: 200px;"></div>
+                    <div class="chart-container" id="cuisineChart"></div>
                 </div>
-                <div class="glass-card" style="flex: 0.8;">
+                <div class="glass-card" style="flex: 1;">
                     <div class="card-title">场景分布</div>
                     <div class="scene-service-wrapper">
                         <div class="scene-chart-wrapper">
@@ -522,37 +419,31 @@
                 </div>
             </div>
 
-            <!-- 中列 -->
             <div class="column">
-                <div class="glass-card">
+                <div class="glass-card" style="flex: 0 0 0.5; padding: 1.2vh 1vw;">
                     <div class="card-title">菜品基础数据（本季度）</div>
-                    <div class="basic-data-list" id="basicDataList">
-                        <!-- 动态生成 -->
-                    </div>
+                    <div class="basic-data-list" id="basicDataList"></div>
                 </div>
-                <div class="glass-card big-number-container">
-                    <p class="big-number-label">配方总数</p>
-                    <p class="big-number-value" id="totalRecipes">0</p>
+                <div class="big-number-container" style="flex:1; padding: 2vh 2vw;">
+                    <div class="big-number-label">配方总数</div>
+                    <div class="big-number-value" id="totalRecipes">0</div>
                 </div>
-                <div class="glass-card" style="flex: 1.2;">
+                <div class="glass-card" style="flex: 0.7;">
                     <div class="card-title">每月新增配方数</div>
                     <div class="chart-container" id="trendChart"></div>
                 </div>
             </div>
 
-            <!-- 右列 -->
             <div class="column">
                 <div class="glass-card">
                     <div class="card-title">每日研发菜品情况</div>
-                    <div class="research-cards" id="researchCards">
-                        <!-- 动态生成 -->
-                    </div>
+                    <div class="research-cards" id="researchCards"></div>
                 </div>
-                <div class="glass-card" style="flex: 1.2;">
+                <div class="glass-card" style="flex: 1;">
                     <div class="card-title">展厅每日炒菜统计</div>
-                    <div class="chart-container" id="dailyChart" style="height: 180px;"></div>
+                    <div class="chart-container" id="dailyChart"></div>
                 </div>
-                <div class="glass-card" style="flex: 0.8;">
+                <div class="glass-card" style="flex: 1;">
                     <div class="card-title">中餐智能菜品</div>
                     <div class="data-table-wrapper">
                         <table class="data-table">
@@ -563,9 +454,7 @@
                                     <th>研发中心</th>
                                 </tr>
                             </thead>
-                            <tbody id="dishesTableBody">
-                                <!-- 动态生成 -->
-                            </tbody>
+                            <tbody id="dishesTableBody"></tbody>
                         </table>
                     </div>
                 </div>
@@ -573,54 +462,14 @@
         </div>
     </div>
 
-    <!-- 刷新提示 -->
     <div class="refresh-tip">
+        <button class="fullscreen-btn" onclick="toggleFullscreen()">全屏</button>
         <div class="refresh-dot"></div>
         <span>每30秒自动刷新 | <span id="lastUpdate">16:08:47</span></span>
-        <button id="fullscreenBtn" class="fullscreen-btn" onclick="toggleFullscreen()">⛶ 全屏</button>
     </div>
 
     <script>
-        // ==================== 配置 ====================
-        const CONFIG = {
-            WEATHER_CITY: "眉山",
-            REFRESH_INTERVAL: 30000, // 30秒全局刷新
-            NUMBER_ANIMATION_DURATION: 2000 // 数字动画时长
-        };
-
-        // ==================== 数据 ====================
-        // 动态生成过去12个月的月份名称
-        function generateLast12Months() {
-            const months = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
-            const result = [];
-            const now = new Date();
-            let currentMonth = now.getMonth(); // 0-11
-            
-            for (let i = 0; i < 12; i++) {
-                result.push(months[currentMonth]);
-                currentMonth = (currentMonth + 1) % 12;
-            }
-            
-            return result;
-        }
-        
-        // 动态生成过去7天的日期
-        function generateLast7Days() {
-            const result = [];
-            const now = new Date();
-            
-            for (let i = 7; i >= 1; i--) {
-                const date = new Date(now);
-                date.setDate(date.getDate() - i);
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const day = String(date.getDate()).padStart(2, '0');
-                result.push(`${month}-${day}`);
-            }
-            
-            return result;
-        }
-        
-        let data = {
+        const data = {
             basic: {
                 计划中菜品: 569,
                 本周研发: 289,
@@ -630,26 +479,17 @@
                 已入库酱料: 3459,
                 配方总数: 73629
             },
-             cuisine: [
+            cuisine: [
                 { 菜系: "川菜", 比重: 30 },
                 { 菜系: "湘菜", 比重: 26 },
                 { 菜系: "江西小炒", 比重: 15 },
-                { 菜系: "云南菜", 比重: 12 },
+                { 菜系: "云南菜", 比重: 10 },
                 { 菜系: "粤菜", 比重: 17 },
-                { 菜系: "烧烤串串", 比重: 22 },
-                { 菜系: "浙菜", 比重: 10 },
-                { 菜系: "苏菜", 比重: 12 },
-                { 菜系: "特色粉面", 比重: 18 },
-                { 菜系: "闽菜", 比重: 8 },
-                { 菜系: "鲁菜", 比重: 6 },
-                { 菜系: "浇头盖饭", 比重: 15 },
-                { 菜系: "徽菜", 比重: 5 },
-                { 菜系: "江湖菜", 比重: 10 },
-                { 菜系: "新疆风味", 比重: 12 },
-                { 菜系: "东北炖菜", 比重: 10 },
-                { 菜系: "西北面食", 比重: 8 },
-                { 菜系: "海鲜烹饪", 比重: 6 },
-                { 菜系: "创意融合菜", 比重: 5 }
+                { 菜系: "浙菜", 比重: 8 },
+                { 菜系: "苏菜", 比重: 15 },
+                { 菜系: "闽菜", 比重: 10 },
+                { 菜系: "鲁菜", 比重: 4 },
+                { 菜系: "徽菜", 比重: 5 }
             ],
             scene: [
                 { 场景: "团餐场景", 人数: 5 },
@@ -664,7 +504,13 @@
                 今日上架: 9,
                 昨日上架: 11
             },
-            daily: [], // 将由 generateLast7Days 动态生成
+            daily: [
+                { 日期: "01-18", 次数: 78 },
+                { 日期: "01-19", 次数: 64 },
+                { 日期: "01-20", 次数: 96 },
+                { 日期: "01-21", 次数: 82 },
+                { 日期: "01-22", 次数: 72 }
+            ],
             dishes: [
                 { 名称: "油渣白菜", 次数: 782, 中心: "中餐智能展厅" },
                 { 名称: "麻婆豆腐", 次数: 823, 中心: "中餐智能展厅" },
@@ -673,273 +519,73 @@
                 { 名称: "葱烧海参", 次数: 593, 中心: "中餐智能展厅" },
                 { 名称: "宫保鸡丁", 次数: 375, 中心: "中餐智能展厅" }
             ],
-            trend: [] // 将由 generateLast12Months 动态生成
-        };
-        
-        // 初始化动态数据
-        function initDynamicData() {
-            // 生成过去7天数据
-            const dates = generateLast7Days();
-            data.daily = dates.map(date => ({
-                日期: date,
-                次数: Math.floor(Math.random() * 50) + 50 // 50-100随机数
-            }));
-            
-            // 生成过去12个月数据
-            const months = generateLast12Months();
-            data.trend = months.map(month => ({
-                月份: month,
-                月新增: Math.floor(Math.random() * 800) + 800, // 800-1600随机数
-                趋势: Math.floor(Math.random() * 800) + 600 // 600-1400随机数
-            }));
-        }
-
-        // 存储当前显示的数值（用于动画）
-        let currentValues = {
-            计划中菜品: 0,
-            本周研发: 0,
-            已入库菜品: 0,
-            计划研发酱料: 0,
-            本周研发酱料: 0,
-            已入库酱料: 0,
-            配方总数: 0,
-            今日研发: 0,
-            昨日研发: 0,
-            今日上架: 0,
-            昨日上架: 0
+            trend: [
+                { 月份: "一月", 月新增: 1359, 趋势: 810 },
+                { 月份: "二月", 月新增: 1522, 趋势: 940 },
+                { 月份: "三月", 月新增: 1007, 趋势: 1249 },
+                { 月份: "四月", 月新增: 788, 趋势: 1102 },
+                { 月份: "五月", 月新增: 910, 趋势: 1369 },
+                { 月份: "六月", 月新增: 1158, 趋势: 1048 },
+                { 月份: "七月", 月新增: 1433, 趋势: 666 },
+                { 月份: "八月", 月新增: 888, 趋势: 708 },
+                { 月份: "九月", 月新增: 725, 趋势: 1600 },
+                { 月份: "十月", 月新增: 963, 趋势: 930 },
+                { 月份: "十一月", 月新增: 1600, 趋势: 1052 },
+                { 月份: "十二月", 月新增: 1693, 趋势: 983 }
+            ]
         };
 
-        // ==================== 天气数据获取 ====================
-        // 天气中英文映射
-        const weatherTranslate = {
-            'Clear': '晴',
-            'Sunny': '晴',
-            'Partly cloudy': '多云',
-            'Cloudy': '阴',
-            'Overcast': '阴',
-            'Mist': '薄雾',
-            'Fog': '雾',
-            'Freezing fog': '冻雾',
-            'Patchy rain possible': '局部有雨',
-            'Patchy snow possible': '局部有雪',
-            'Patchy sleet possible': '局部雨夹雪',
-            'Thundery outbreaks possible': '局部雷雨',
-            'Blowing snow': '风吹雪',
-            'Blizzard': '暴风雪',
-            'Patchy light drizzle': '小毛毛雨',
-            'Light drizzle': '毛毛雨',
-            'Freezing drizzle': '冻毛毛雨',
-            'Heavy freezing drizzle': '大冻毛毛雨',
-            'Patchy light rain': '小阵雨',
-            'Light rain': '小雨',
-            'Moderate rain at times': '时而有中雨',
-            'Moderate rain': '中雨',
-            'Heavy rain at times': '时而有大雨',
-            'Heavy rain': '大雨',
-            'Light freezing rain': '小冻雨',
-            'Moderate or heavy freezing rain': '中到大冻雨',
-            'Light sleet': '小雨夹雪',
-            'Moderate or heavy sleet': '中到大雨夹雪',
-            'Patchy light snow': '小阵雪',
-            'Light snow': '小雪',
-            'Patchy moderate snow': '局部中雪',
-            'Moderate snow': '中雪',
-            'Patchy heavy snow': '局部大雪',
-            'Heavy snow': '大雪',
-            'Ice pellets': '冰粒',
-            'Light rain shower': '小阵雨',
-            'Moderate or heavy rain shower': '中到大阵雨',
-            'Torrential rain shower': '暴雨',
-            'Light sleet showers': '小雨夹雪',
-            'Moderate or heavy sleet showers': '中到大雨夹雪',
-            'Light snow showers': '小阵雪',
-            'Moderate or heavy snow showers': '中到大阵雪',
-            'Patchy light rain with thunder': '小雷阵雨',
-            'Moderate or heavy rain with thunder': '雷阵雨',
-            'Patchy light snow with thunder': '小雷阵雪',
-            'Moderate or heavy snow with thunder': '雷阵雪'
-        };
-
-        async function fetchWeather() {
-            try {
-                // 使用wttr.in免费API（支持CORS，无需密钥）
-                const weatherUrl = `https://wttr.in/${encodeURIComponent(CONFIG.WEATHER_CITY)}?format=j1&lang=zh`;
-                const res = await fetch(weatherUrl);
-                
-                if (!res.ok) {
-                    console.error('天气API请求失败');
-                    return null;
-                }
-                
-                const weatherData = await res.json();
-                
-                // wttr.in返回格式
-                const current = weatherData.current_condition?.[0];
-                if (current) {
-                    const weatherText = current.weatherDesc?.[0]?.value || '未知';
-                    return {
-                        temp: current.temp_C,
-                        text: weatherTranslate[weatherText] || weatherText,
-                        feelsLike: current.FeelsLikeC
-                    };
-                }
-                
-                return null;
-            } catch (error) {
-                console.error('天气API调用失败:', error);
-                return null;
-            }
+        function initBasicDataList() {
+            const container = document.getElementById('basicDataList');
+            const items = [
+                { label: '计划中菜品', value: data.basic.计划中菜品, unit: '个' },
+                { label: '本周研发', value: data.basic.本周研发, unit: '个' },
+                { label: '已入库菜品', value: data.basic.已入库菜品, unit: '个' },
+                { label: '计划研发专用酱料', value: data.basic.计划研发酱料, unit: '种' },
+                { label: '本周研发专用酱料', value: data.basic.本周研发酱料, unit: '种' },
+                { label: '已入库专用酱料', value: data.basic.已入库酱料, unit: '种' }
+            ];
+            container.innerHTML = items.map(item => `
+                <div class="basic-data-item">
+                    <span class="basic-data-label">${item.label}：</span>
+                    <span class="basic-data-value">${item.value.toLocaleString()}${item.unit}</span>
+                </div>
+            `).join('');
         }
 
-        // 天气图标映射
-        function getWeatherIcon(text) {
-            const iconMap = {
-                '晴': '☀️',
-                '多云': '⛅',
-                '阴': '☁️',
-                '小雨': '🌧️',
-                '中雨': '🌧️',
-                '大雨': '🌧️',
-                '暴雨': '⛈️',
-                '雷阵雨': '⛈️',
-                '小雪': '🌨️',
-                '中雪': '🌨️',
-                '大雪': '❄️',
-                '雨夹雪': '🌨️',
-                '雾': '🌫️',
-                '霾': '🌫️',
-                '风': '💨'
-            };
-            
-            for (let key in iconMap) {
-                if (text.includes(key)) return iconMap[key];
-            }
-            return '🌤️';
-        }
-
-        // 更新天气显示
-        async function updateWeather() {
-            const weatherInfo = document.getElementById('weatherInfo');
-            const weather = await fetchWeather();
-            
-            if (weather) {
-                const icon = getWeatherIcon(weather.text);
-                const temp = `${weather.temp}℃`;
-                weatherInfo.textContent = `${icon} ${weather.text} | ${temp}`;
-                weatherInfo.classList.add('data-flash');
-                setTimeout(() => weatherInfo.classList.remove('data-flash'), 300);
-            } else {
-                // API失败时使用模拟数据
-                weatherInfo.textContent = '🌧️ 小雨 | 16-20℃';
-            }
-        }
-
-        // ==================== 数字动画 ====================
-        function animateNumber(element, target, duration = CONFIG.NUMBER_ANIMATION_DURATION) {
-            const start = parseInt(element.textContent.replace(/,/g, '')) || 0;
+        function animateNumber(element, target) {
+            const duration = 2000;
+            const start = 0;
             const startTime = performance.now();
-            
             function update(currentTime) {
                 const elapsed = currentTime - startTime;
                 const progress = Math.min(elapsed / duration, 1);
                 const easeOut = 1 - Math.pow(1 - progress, 3);
                 const current = Math.floor(start + (target - start) * easeOut);
                 element.textContent = current.toLocaleString();
-                
                 if (progress < 1) {
                     requestAnimationFrame(update);
                 }
             }
-            
             requestAnimationFrame(update);
         }
 
-        // 带闪烁效果的数字更新
-        function updateNumberWithFlash(element, newValue, duration = CONFIG.NUMBER_ANIMATION_DURATION) {
-            element.classList.add('data-flash');
-            animateNumber(element, newValue, duration);
-            setTimeout(() => element.classList.remove('data-flash'), 300);
-        }
-
-        // ==================== 初始化菜品基础数据列表 ====================
-        function initBasicDataList() {
-            const container = document.getElementById('basicDataList');
-            const items = [
-                { label: '计划中菜品', value: data.basic.计划中菜品, unit: '个', id: 'basic_计划中菜品' },
-                { label: '本周研发', value: data.basic.本周研发, unit: '个', id: 'basic_本周研发' },
-                { label: '已入库菜品', value: data.basic.已入库菜品, unit: '个', id: 'basic_已入库菜品' },
-                { label: '计划研发专用酱料', value: data.basic.计划研发酱料, unit: '种', id: 'basic_计划研发酱料' },
-                { label: '本周研发专用酱料', value: data.basic.本周研发酱料, unit: '种', id: 'basic_本周研发酱料' },
-                { label: '已入库专用酱料', value: data.basic.已入库酱料, unit: '种', id: 'basic_已入库酱料' }
-            ];
-            
-            container.innerHTML = items.map(item => `
-                <div class="basic-data-item">
-                    <span class="basic-data-label">${item.label}：</span>
-                    <span class="basic-data-value" id="${item.id}">0${item.unit}</span>
-                </div>
-            `).join('');
-            
-            // 启动数字动画
-            setTimeout(() => {
-                items.forEach((item, index) => {
-                    setTimeout(() => {
-                        const element = document.getElementById(item.id);
-                        animateNumberWithUnit(element, item.value, item.unit);
-                    }, index * 100);
-                });
-            }, 300);
-        }
-
-        // 带单位的数字动画
-        function animateNumberWithUnit(element, target, unit, duration = CONFIG.NUMBER_ANIMATION_DURATION) {
-            const start = 0;
-            const startTime = performance.now();
-            
-            function update(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const easeOut = 1 - Math.pow(1 - progress, 3);
-                const current = Math.floor(start + (target - start) * easeOut);
-                element.textContent = current.toLocaleString() + unit;
-                
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                }
-            }
-            
-            requestAnimationFrame(update);
-        }
-
-        // ==================== 研发卡片 ====================
         function initResearchCards() {
             const container = document.getElementById('researchCards');
             const cards = [
-                { label: '今日研发菜品', value: data.research.今日研发, id: 'research_今日研发' },
-                { label: '今日上架菜品', value: data.research.今日上架, id: 'research_今日上架' },
-                { label: '昨日研发菜品', value: data.research.昨日研发, id: 'research_昨日研发' },
-                { label: '昨日上架菜品', value: data.research.昨日上架, id: 'research_昨日上架' }
+                { label: '今日研发菜品', value: data.research.今日研发 },
+                { label: '今日上架菜品', value: data.research.今日上架 },
+                { label: '昨日研发菜品', value: data.research.昨日研发 },
+                { label: '昨日上架菜品', value: data.research.昨日上架 }
             ];
-            
             container.innerHTML = cards.map(card => `
                 <div class="research-card">
-                    <div class="number" id="${card.id}">0</div>
+                    <div class="number">${card.value}</div>
                     <div class="label">${card.label}</div>
                 </div>
             `).join('');
-            
-            // 启动数字动画
-            setTimeout(() => {
-                cards.forEach((card, index) => {
-                    setTimeout(() => {
-                        const element = document.getElementById(card.id);
-                        animateNumber(element, card.value);
-                    }, index * 150);
-                });
-            }, 500);
         }
 
-        // ==================== 菜品表格 ====================
         function initDishesTable() {
             const tbody = document.getElementById('dishesTableBody');
             tbody.innerHTML = data.dishes.map(dish => `
@@ -951,42 +597,32 @@
             `).join('');
         }
 
-        // ==================== 图表初始化 ====================
         function initCuisineChart() {
-            const chartDom = document.getElementById('cuisineChart');
-            if (!chartDom) {
-                console.error('菜系分布容器未找到');
-                return null;
-            }
-            
-            const chart = echarts.init(chartDom);
+            const chart = echarts.init(document.getElementById('cuisineChart'));
             const option = {
                 series: [{
                     type: 'wordCloud',
                     shape: 'circle',
                     left: 'center',
                     top: 'center',
-                    width: '95%',
-                    height: '95%',
-                    sizeRange: [20, 50],
-                    rotationRange: [-45, 45],
+                    width: '90%',
+                    height: '90%',
+                    sizeRange: [14, 40],
+                    rotationRange: [-30, 30],
                     rotationStep: 15,
-                    gridSize: 6,
-                    drawOutOfBound: false,
-                    layoutAnimation: true,
+                    gridSize: 8,
                     textStyle: {
                         fontFamily: 'PingFang SC, Microsoft YaHei',
                         fontWeight: 'bold',
                         color: function() {
-                            const colors = ['#FFD700', '#FFA500', '#FF8C42', '#FF6B6B', '#C8102E', '#4ECDC4', '#ebc587', '#f7c600', '#FF69B4', '#87CEEB'];
+                            const colors = ['#FFD700', '#FFA500', '#FF8C42', '#FF6B6B', '#C8102E', '#4ECDC4', '#ebc587', '#f7c600'];
                             return colors[Math.floor(Math.random() * colors.length)];
                         }
                     },
                     emphasis: {
                         textStyle: {
-                            textShadowBlur: 15,
-                            textShadowColor: '#FFD700',
-                            fontWeight: 'bold'
+                            textShadowBlur: 10,
+                            textShadowColor: '#FFD700'
                         }
                     },
                     data: data.cuisine.map(item => ({
@@ -996,19 +632,11 @@
                 }]
             };
             chart.setOption(option);
-            
-            // 强制resize
-            setTimeout(() => chart.resize(), 200);
-            
             window.addEventListener('resize', () => chart.resize());
-            return chart;
         }
 
         function initSceneChart() {
-            const chartDom = document.getElementById('sceneChart');
-            if (!chartDom) return null;
-            
-            const chart = echarts.init(chartDom);
+            const chart = echarts.init(document.getElementById('sceneChart'));
             const option = {
                 tooltip: {
                     trigger: 'item',
@@ -1026,8 +654,8 @@
                     label: {
                         show: true,
                         formatter: '{b}\n{d}%',
-                        fontSize: 16,
-                        color: '#ffaa00'
+                        fontSize: 10,
+                        textStyle: { color: '#ffaa00' }
                     },
                     data: data.scene.map((item, index) => ({
                         value: item.人数,
@@ -1039,40 +667,26 @@
                 }]
             };
             chart.setOption(option);
-            setTimeout(() => chart.resize(), 200);
             window.addEventListener('resize', () => chart.resize());
-            return chart;
         }
 
         function initDailyChart() {
-            const chartDom = document.getElementById('dailyChart');
-            if (!chartDom) return null;
-            
-            const chart = echarts.init(chartDom);
+            const chart = echarts.init(document.getElementById('dailyChart'));
             const option = {
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: { type: 'shadow' }
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    top: '6%',
-                    containLabel: true
-                },
+                tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+                grid: { left: '3%', right: '4%', bottom: '3%', top: '6%', containLabel: true },
                 xAxis: {
                     type: 'category',
                     data: data.daily.map(item => item.日期),
                     axisLine: { lineStyle: { color: '#ebc587f2' } },
-                    axisLabel: { color: '#ebc587f2', fontSize: 16 }
+                    axisLabel: { color: '#ebc587f2', fontSize: 10 }
                 },
                 yAxis: {
                     type: 'value',
                     axisLine: { show: false },
                     axisTick: { show: false },
                     splitLine: { lineStyle: { color: '#ebc587f2' } },
-                    axisLabel: { color: '#ebc587f2', fontSize: 16 }
+                    axisLabel: { color: '#ebc587f2', fontSize: 10 }
                 },
                 series: [{
                     type: 'bar',
@@ -1088,45 +702,31 @@
                 }]
             };
             chart.setOption(option);
-            setTimeout(() => chart.resize(), 200);
             window.addEventListener('resize', () => chart.resize());
-            return chart;
         }
 
         function initTrendChart() {
-            const chartDom = document.getElementById('trendChart');
-            if (!chartDom) return null;
-            
-            const chart = echarts.init(chartDom);
+            const chart = echarts.init(document.getElementById('trendChart'));
             const option = {
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: { type: 'cross' }
-                },
+                tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
                 legend: {
                     data: ['月新增', '较往年趋势'],
                     top: 0,
-                    textStyle: { fontSize: 16, color: '#ebc587f2' }
+                    textStyle: { fontSize: 10, color: '#ebc587f2' }
                 },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    top: '14%',
-                    containLabel: true
-                },
+                grid: { left: '3%', right: '4%', bottom: '3%', top: '14%', containLabel: true },
                 xAxis: {
                     type: 'category',
                     data: data.trend.map(item => item.月份),
                     axisLine: { lineStyle: { color: '#ebc587f2' } },
-                    axisLabel: { color: '#ebc587f2', fontSize: 14, rotate: 20 }
+                    axisLabel: { color: '#ebc587f2', fontSize: 8, rotate: 20 }
                 },
                 yAxis: {
                     type: 'value',
                     axisLine: { show: false },
                     axisTick: { show: false },
                     splitLine: { lineStyle: { color: '#ebc587f2' } },
-                    axisLabel: { color: '#ebc587f2', fontSize: 16 }
+                    axisLabel: { color: '#ebc587f2', fontSize: 10 }
                 },
                 series: [
                     {
@@ -1155,12 +755,9 @@
                 ]
             };
             chart.setOption(option);
-            setTimeout(() => chart.resize(), 200);
             window.addEventListener('resize', () => chart.resize());
-            return chart;
         }
 
-        // ==================== 更新时间 ====================
         function updateDateTime() {
             const now = new Date();
             const datetime = now.toLocaleString('zh-CN', {
@@ -1171,222 +768,56 @@
                 minute: '2-digit',
                 second: '2-digit'
             }).replace(/\//g, '.');
-            
             document.getElementById('datetime').textContent = datetime;
             document.getElementById('lastUpdate').textContent = now.toLocaleTimeString('zh-CN');
         }
 
-        // ==================== 菜品轮播 ====================
         const dishImages = [
             'resources/1.png',
             'resources/2.png',
             'resources/3.png',
             'resources/4.png',
             'resources/5.png',
-            'resources/6.png'
+            'resources/6.png',
         ];
-        
         let currentDishIndex = 0;
-        let dishImagesLoaded = false;
-        
-        // 预加载所有图片
-        function preloadDishImages() {
-            const display = document.getElementById('dishDisplay');
-            display.innerHTML = '';
-            
-            dishImages.forEach((src, index) => {
-                const img = document.createElement('img');
-                img.src = src;
-                img.alt = `菜品${index + 1}`;
-                // 第一张可见，其他隐藏
-                img.className = index === 0 ? 'visible' : 'hidden';
-                img.onerror = function() {
-                    this.style.display = 'none';
-                };
-                display.appendChild(img);
-            });
-            
-            dishImagesLoaded = true;
-        }
-        
-        // 淡入淡出切换
+
         function rotateDish() {
-            if (!dishImagesLoaded) return;
-            
             const display = document.getElementById('dishDisplay');
-            const images = display.querySelectorAll('img');
-            
-            if (images.length === 0) return;
-            
-            // 当前图片淡出
-            images[currentDishIndex].className = 'hidden';
-            
-            // 切换到下一张
-            currentDishIndex = (currentDishIndex + 1) % dishImages.length;
-            
-            // 新图片淡入
-            images[currentDishIndex].className = 'visible';
-        }
-
-        // ==================== 数据模拟更新（演示用） ====================
-        function simulateDataUpdate() {
-            // 模拟数据变化（实际项目中应从API获取）
-            data.basic.计划中菜品 += Math.floor(Math.random() * 5);
-            data.basic.本周研发 += Math.floor(Math.random() * 3);
-            data.basic.已入库菜品 += Math.floor(Math.random() * 8);
-            data.basic.配方总数 += Math.floor(Math.random() * 20);
-            data.research.今日研发 += Math.floor(Math.random() * 2);
-            
-            // 更新显示
-            updateBasicData();
-            updateResearchData();
-            updateTotalRecipes();
-        }
-
-        // 更新基础数据
-        function updateBasicData() {
-            const items = [
-                { id: 'basic_计划中菜品', value: data.basic.计划中菜品, unit: '个' },
-                { id: 'basic_本周研发', value: data.basic.本周研发, unit: '个' },
-                { id: 'basic_已入库菜品', value: data.basic.已入库菜品, unit: '个' },
-                { id: 'basic_计划研发酱料', value: data.basic.计划研发酱料, unit: '种' },
-                { id: 'basic_本周研发酱料', value: data.basic.本周研发酱料, unit: '种' },
-                { id: 'basic_已入库酱料', value: data.basic.已入库酱料, unit: '种' }
-            ];
-            
-            items.forEach(item => {
-                const element = document.getElementById(item.id);
-                if (element) {
-                    element.parentElement.parentElement.classList.add('card-update');
-                    animateNumberWithUnit(element, item.value, item.unit, 1000);
-                    setTimeout(() => element.parentElement.parentElement.classList.remove('card-update'), 500);
-                }
-            });
-        }
-
-        // 更新研发数据
-        function updateResearchData() {
-            const items = [
-                { id: 'research_今日研发', value: data.research.今日研发 },
-                { id: 'research_今日上架', value: data.research.今日上架 },
-                { id: 'research_昨日研发', value: data.research.昨日研发 },
-                { id: 'research_昨日上架', value: data.research.昨日上架 }
-            ];
-            
-            items.forEach((item, index) => {
-                setTimeout(() => {
-                    const element = document.getElementById(item.id);
-                    if (element) {
-                        element.parentElement.classList.add('card-update');
-                        updateNumberWithFlash(element, item.value, 1000);
-                        setTimeout(() => element.parentElement.classList.remove('card-update'), 500);
-                    }
-                }, index * 100);
-            });
-        }
-
-        // 更新配方总数
-        function updateTotalRecipes() {
-            const element = document.getElementById('totalRecipes');
-            updateNumberWithFlash(element, data.basic.配方总数, 1500);
-        }
-
-        // ==================== 全局刷新 ====================
-        async function globalRefresh() {
-            console.log('全局刷新中...', new Date().toLocaleTimeString());
-            
-            // 更新天气
-            await updateWeather();
-            
-            // 模拟数据更新
-            simulateDataUpdate();
-            
-            // 更新时间
-            updateDateTime();
-        }
-
-        // ==================== 初始化 ====================
-        async function init() {
-            // 初始化动态数据（月份和日期）
-            initDynamicData();
-            
-            // 初始化天气
-            await updateWeather();
-            
-            // 初始化基础数据
-            initBasicDataList();
-            
-            // 配方总数动画
-            animateNumber(document.getElementById('totalRecipes'), data.basic.配方总数);
-            
-            // 初始化研发卡片
-            initResearchCards();
-            
-            // 初始化表格
-            initDishesTable();
-            
-            // 预加载菜品图片
-            preloadDishImages();
-            
-            // 延迟初始化图表，确保容器渲染完成
+            display.style.opacity = '0';
             setTimeout(() => {
-                initCuisineChart();
-                initSceneChart();
-                initDailyChart();
-                initTrendChart();
-            }, 100);
-            
-            // 更新时间
-            updateDateTime();
-            
-            // 定时器
-            setInterval(updateDateTime, 1000);          // 每秒更新时间
-            setInterval(rotateDish, 5000);              // 每5秒切换菜品图片
-            setInterval(globalRefresh, CONFIG.REFRESH_INTERVAL); // 每30秒全局刷新
+                currentDishIndex = (currentDishIndex + 1) % dishImages.length;
+                display.innerHTML = `<img src="${dishImages[currentDishIndex]}" alt="菜品展示" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">`;
+                display.style.opacity = '1';
+            }, 200);
         }
 
-        // 页面加载完成后初始化
-        window.addEventListener('load', init);
-
-        // ==================== 全屏功能 ====================
         function toggleFullscreen() {
-            const elem = document.documentElement;
-            
-            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-                // 进入全屏
-                if (elem.requestFullscreen) {
-                    elem.requestFullscreen();
-                } else if (elem.webkitRequestFullscreen) {
-                    elem.webkitRequestFullscreen();
-                } else if (elem.msRequestFullscreen) {
-                    elem.msRequestFullscreen();
-                }
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log('全屏失败:', err);
+                });
             } else {
-                // 退出全屏
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
+                document.exitFullscreen();
             }
         }
 
-        // 监听全屏状态变化
-        function handleFullscreenChange() {
-            const btn = document.getElementById('fullscreenBtn');
-            const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
-            
-            if (isFullscreen) {
-                btn.classList.add('hidden');
-            } else {
-                btn.classList.remove('hidden');
-            }
+        function init() {
+            initBasicDataList();
+            animateNumber(document.getElementById('totalRecipes'), data.basic.配方总数);
+            initResearchCards();
+            initDishesTable();
+            initCuisineChart();
+            initSceneChart();
+            initDailyChart();
+            initTrendChart();
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            setInterval(rotateDish, 5000);
+            setInterval(() => { location.reload(); }, 30000);
         }
 
-        document.addEventListener('fullscreenchange', handleFullscreenChange);
-        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        window.addEventListener('load', init);
     </script>
 </body>
 </html>
